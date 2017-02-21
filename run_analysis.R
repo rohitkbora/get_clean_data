@@ -109,8 +109,13 @@ write.table(data_df,"UCI HAR Dataset\\comb\\X_With_Act_Name.txt")
 
 ####################  Labeling the dataset with Variable name ###########
 var_lab<-read.table("UCI HAR Dataset\\features.txt")
-class(var_lab)
-data_df<-rbind(cbind("Activity",var_lab),data_df)
+#class(var_lab)
+#var_lab<-rbind(as.dataframe("Activity"),var_lab)
+var_lab<-append(var_lab,"Activity",after=0)
+#//data_df<-rbind(paste("Activity",var_lab,sep=","),data_df)
+#colnames(data_df[,V1:])<-var_lab
+colnames(data_df)<-var_lab
+
 write.table(data_df,"UCI HAR Dataset\\comb\\X_With_Act_feature_Name.txt")
 #print(head(data_df[,1:5]))
 subject<-read.table("UCI HAR Dataset\\comb\\subject_comb.txt")
@@ -122,7 +127,8 @@ write.table(data_df,"UCI HAR Dataset\\comb\\X_With_Act_feature_Name.txt")
 
 ########################## applying mean over variable for for each subject and Activity ###########
 
-data_df1<-aggregate(.~subject+activity,data_df,FUN=mean)
-print(head(data_df1[,1:5]))
+data_df1<-aggregate(.~subject+Activity,data_df,FUN=mean)
+#////print(head(data_df1[,1:5]))
+write.table(data_df1,"UCI HAR Dataset\\comb\\X_With_Act_feature_Name_apply_mean.txt",row.name=FALSE)
 
 
